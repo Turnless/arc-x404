@@ -1,0 +1,19 @@
+{
+  "name": "arc-x404-checker",
+  "version": "1.0.0",
+  "description": "Off-chain trust checker for the PaidReviews gate on Arc: scores a payer from public chain data and signs a review permit.",
+  "type": "module",
+  "private": true,
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "score": "node src/cli.mjs score",
+    "watch": "node src/cli.mjs watch",
+    "test": "node --test test/*.test.mjs"
+  },
+  "dependencies": {
+    "viem": "^2.57.3"
+  }
+}

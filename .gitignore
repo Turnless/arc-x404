@@ -1,0 +1,18 @@
+# secrets
+.env
+.env.*
+!.env.example
+*.key
+
+# build output
+cache/
+out/
+
+# local anvil rehearsals (mainnet broadcasts under broadcast/*/5042/ are kept as the deploy record)
+broadcast/*/31337/
+
+node_modules/
+
+# trust checker
+checker/node_modules/
+checker/cache/
