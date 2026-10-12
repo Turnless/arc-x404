@@ -1,0 +1,19 @@
+# Output of checker/test/e2e-anvil.mjs (7 Oct 2026): gate deployed on a local fork of Arc mainnet,
+# real mainnet wallets as payers, the checker reading their real history from Arc endpoints.
+# OWNER=0x321797bb274b5a1df134090845a84fc1faef13fd SOCK=0xba6c8a4c882972644e5f2dd8f82eff8d92576645 HONEST=0x024b82335C29Fa5606a8ea5c1D24FC9eAD50700C
+
+gate 0x666b81ffa66e171c40fe0bc030df0510758ea434 deployed in block 24763878 (fork of Arc mainnet)
+agent 2308 registered by OWNER 0x321797bb274B5A1dF134090845a84fc1fAeF13fD
+PASS  Instant payout reached the owner
+       phases (ms): {"receipt and gate events":615,"age and funding":29729,"money from the agent's side":15855,"history and recipients":176,"cluster":0,"payer agent":0}
+SOCK   score 0/10 in 46381 ms: not-agent-side=pass payer-agent-identity=0 model-claim=0 domain-verified=0 wallet-age=FAIL independent-history=0 independent-funding=FAIL no-money-loop=FAIL not-single-target=0 no-cluster=1
+       archive 237 calls (0 retries), recent 3
+PASS  checker links the sock to the owner (hard fail, score 0)
+       phases (ms): {"receipt and gate events":590,"age and funding":14776,"money from the agent's side":72850,"history and recipients":186031,"cluster":1,"payer agent":0}
+HONEST score 7/10 in 274248 ms: not-agent-side=pass payer-agent-identity=0 model-claim=0 domain-verified=0 wallet-age=pass independent-history=2 independent-funding=pass no-money-loop=pass not-single-target=1 no-cluster=1
+       archive 825 calls (114 retries), recent 14
+PASS  honest payer has no hard fail
+PASS  the gate rejects the sock's review  The contract function "review" reverted. TrustScoreTooLow
+PASS  the gate accepts the honest review  ok
+
+5/5 checks passed

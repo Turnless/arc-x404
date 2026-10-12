@@ -1,14 +1,51 @@
-# ARC-x404
+# ARC-x404 - paid, trust-checked reviews for AI agents on Arc
 
-Trust-checked, paid-only ratings for ERC-8004 agents on Arc. The on-chain gate is the
-`PaidReviews` contract; the off-chain trust checker lives in `checker/`.
+[![CI](https://github.com/Turnless/arc-x404/actions/workflows/ci.yml/badge.svg)](https://github.com/Turnless/arc-x404/actions/workflows/ci.yml)
+![Arc mainnet](https://img.shields.io/badge/Arc-mainnet%205042-blue)
+![ERC-8004](https://img.shields.io/badge/ERC--8004-ReputationRegistry-green)
+![tests](https://img.shields.io/badge/tests-61%20contract%20%C2%B7%2026%20checker-brightgreen)
 
-Anyone can pay an agent through PaidReviews, and the agent receives 100% of the payment at
-once. Only some payers can turn that payment into a rating: while the agent works, an open
-trust checker scores the payer from public Arc data (who funded the wallet, how old it is,
-whom it has paid, whether money flows back from the agent's side). A payer who scores
-under 7 out of 10 cannot review. An agent owner who pays their own agent from a second
-wallet funded by themselves scores 0.
+**Arc Microgrants** (Circle / Arc, DoraHacks) · built on Arc mainnet's ERC-8004 registries and native USDC
+
+Anyone can rate an AI agent in Arc's ERC-8004 ReputationRegistry for free, so a score can be
+faked with a sock wallet for a cent of gas. ARC-x404 lets anyone pay an agent in USDC (the
+agent gets 100% at once), and lets a payer turn that payment into a rating only if an open
+trust checker, reading public Arc data while the agent works, scores the payer 7/10 or more.
+The `PaidReviews` contract enforces the checker's signed verdict and writes the rating to
+Arc's ERC-8004 ReputationRegistry.
+
+**Everyone can pay. Not everyone can review.**
+
+| | |
+|---|---|
+| Repo | https://github.com/Turnless/arc-x404 |
+| Live contract | PaidReviews on Arc mainnet: TBD (explorer link) |
+| First mainnet tx | TBD |
+| Cost per review | about 0.01 USDC of gas for a pay plus a review (about 500k gas at 20 gwei); the agent keeps 100% of the price |
+| Check time | about 45 s for a new wallet, about 4.5 min for a very busy one, on Arc's free public endpoints |
+| Tests | 61 contract tests (60 against Arc mainnet state), 26 checker tests, end-to-end run with real mainnet wallets |
+| Nothing simulated on mainnet | the deploy, payments and rejected reviews are real Arc mainnet transactions; the one accepted review shown comes from the fork run below (see "What is real and what is not") |
+
+## Judge fast path
+
+Five minutes, no keys, nothing to install for steps 1 to 3.
+
+1. Open the PaidReviews contract on the Arc explorer (link above) and its transactions:
+   a payment that reached the agent in full in the same transaction, and two reviews that
+   the gate rejected on-chain (`TrustScoreTooLow`): one from a sock wallet funded by the
+   agent's owner, one from a brand-new wallet.
+2. In the explorer's Read tab, call `liveScore(agentId)` and `blockedReviews(agentId)` for the
+   demo agent, and see that a rating posted directly to the registry (free, unpaid) does not
+   count: the registry's `getSummary` filtered to the gate only counts checked ratings.
+3. Read the checker's verdicts in [`docs/`](docs/): the end-to-end run in
+   [`docs/e2e-fork-run-2026-10-07.txt`](docs/e2e-fork-run-2026-10-07.txt) shows a real mainnet
+   wallet first funded by the agent's owner scoring 0 and being rejected, and a real
+   unrelated wallet scoring 7 and being accepted.
+4. Optional, needs Node 22: rerun the checker yourself on a mainnet receipt (read-only, no
+   keys): `cd checker && npm ci && node src/cli.mjs score <receiptId>`. The report hash must
+   match the one in the `ReviewTrust` event / permit.
+5. Optional: `cd checker && npm test` (26 tests, offline) and
+   `forge test --fork-url https://rpc.mainnet.arc.io` (61 tests).
 
 ## The problem
 
@@ -128,7 +165,7 @@ history keeps the newest recipients in a fixed order, so a rerun reads the same 
 whichever endpoints serve it. The one exception is the `.well-known` fetch, which depends
 on the web at the time of the check.
 
-## What it stops, and what it does not
+## Threat model: what it stops, and what it does not
 
 It stops:
 - the agent's owner, operators or wallet reviewing (contract and checker);
@@ -182,7 +219,7 @@ Instant forward is held; a blocklisted payee cannot withdraw) is reasoned, not t
   runs during the work.
 - Plain wallets work; nothing here needs a custodial or programmable wallet.
 
-## Tests
+## Tests and scripts
 
 - Contract: 61 tests (60 run against Arc mainnet state, 1 fuzz test with mock registries).
   `forge test --fork-url https://rpc.mainnet.arc.io`. They cover Instant and Hold payouts,
@@ -191,7 +228,7 @@ Instant forward is held; a blocklisted payee cannot withdraw) is reasoned, not t
   expired, malleable signature, bad length), the trust threshold, receipts, replacement,
   the owner veto, ownership changes between pay and review, and the registry's revoke
   behaviour this design relies on.
-- Checker: 25 tests (`cd checker && npm test`): the scoring rules, the age search, and
+- Checker: 26 tests (`cd checker && npm test`, offline; CI runs them on every push): the scoring rules, the age search, and
   regression tests for the attacks found in an independent review, run against a fake
   chain (a sock with a fresh agent, a shared-host domain and dust recipients; money pulled
   from the owner with `transferFrom`; reruns served by different endpoints).
@@ -233,17 +270,35 @@ all of the time above.
 | ERC-8004 IdentityRegistry | `0x8004A169FB4a3325136EB29fA0ceB6D2e539a432` |
 | ERC-8004 ReputationRegistry | `0x8004BAa17C55a88189AE136b182e5fdA19dE9b63` |
 
-## Demo transactions
+## Demo transactions (Arc mainnet)
 
 | Step | Transaction | Result |
 |---|---|---|
-| Register demo agent | TBD | |
-| Deploy PaidReviews | TBD | |
-| Honest payer pays (Instant) | TBD | agent received 100% |
-| Honest payer reviews with a passing permit | TBD | rating posted |
-| Sock (funded by the owner) pays | TBD | agent received 100% |
-| Sock reviews with its score-0 permit | TBD | rejected: `TrustScoreTooLow(0, 7)` |
-| A wallet that never paid tries to review | TBD | rejected: `NotReceiptPayer` |
+| Register the demo agent (deployer) | TBD | ERC-8004 agent id TBD |
+| Deploy PaidReviews (checker `0x777908f9BC5b4e31be3b2b85e25c0268cf69143d`, threshold 7) | TBD | |
+| New payer pays the agent 0.01 USDC (Instant) | TBD | agent received 100% in the same transaction |
+| New payer tries to review with its permit (score 0: wallet younger than 7 days) | TBD | rejected on-chain: `TrustScoreTooLow(0, 7)` |
+| Sock wallet, funded by the agent's owner, pays | TBD | agent received 100% |
+| Sock tries to review with its permit (score 0: funded by the owner) | TBD | rejected on-chain: `TrustScoreTooLow(0, 7)` |
+| A wallet that never paid tries to review someone else's receipt | TBD | rejected on-chain: `NotReceiptPayer` |
+
+## What is real and what is not
+
+- **Real, on Arc mainnet:** the PaidReviews contract, the demo agent in the ERC-8004
+  IdentityRegistry, the payments (USDC moved to the agent), and the rejected reviews above.
+- **Real, off-chain:** the trust checker, run against Arc mainnet data; its reports and
+  permits for the demo receipts are signed with the checker key whose address is pinned in
+  the contract.
+- **Not on mainnet: an accepted review.** The checker requires a payer wallet to be at least
+  7 days old. This project's wallets were first funded on 12 Oct 2026, two days before the
+  deadline, so no wallet of ours could pass honestly in time, and lowering the rule for the
+  demo would defeat it. The accepted case is shown instead by the end-to-end run on a local
+  fork of Arc mainnet ([output](docs/e2e-fork-run-2026-10-07.txt),
+  [script](checker/test/e2e-anvil.mjs)): the same contract deployed on the fork, real mainnet
+  wallets as payers, and the checker reading their real Arc history.
+- **In this demo the builder controls the agent, the payer and the sock.** The sock is
+  rejected because it was funded by the agent's owner. A payer funded through an exchange
+  cannot be linked to the owner by any public data; that is the documented limit below.
 
 ## Run it
 

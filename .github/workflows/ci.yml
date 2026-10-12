@@ -1,0 +1,43 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      fork_tests:
+        description: "Also run the 60 contract tests against Arc mainnet state (uses the public RPC)"
+        type: boolean
+        default: false
+
+jobs:
+  checker:
+    name: Trust checker tests
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: checker
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: checker/package-lock.json
+      - run: npm ci
+      - run: npm test
+
+  contracts:
+    name: Contract build and offline tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - uses: foundry-rs/foundry-toolchain@v1
+      - run: forge build
+      - name: Offline fuzz test (mock registries)
+        run: forge test --match-contract PaidReviewsAccountingFuzzTest
+      - name: Fork tests against Arc mainnet state
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.fork_tests }}
+        run: forge test --fork-url https://rpc.mainnet.arc.io
