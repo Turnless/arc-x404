@@ -19,8 +19,8 @@ Arc's ERC-8004 ReputationRegistry.
 | | |
 |---|---|
 | Repo | https://github.com/Turnless/arc-x404 |
-| Live contract | PaidReviews on Arc mainnet: TBD (explorer link) |
-| First mainnet tx | TBD |
+| Live contract | PaidReviews on Arc mainnet: [`0xE6F94dAFBE0B37194911a3Ab738727e37FD3F05d`](https://explorer.arc.io/address/0xE6F94dAFBE0B37194911a3Ab738727e37FD3F05d) |
+| First mainnet tx | [`0x5e91bc18…`](https://explorer.arc.io/tx/0x5e91bc185dc03541997dbc9724addb567f89ab3c0aed35d6904bcd57d4c13f46): demo agent 2439 registered, 14 Oct 2026; gate deployed in [`0x60ff87cf…`](https://explorer.arc.io/tx/0x60ff87cfd35b8c5f6ba5d2409dd647db954b963a44855eff109dfc6dda6a078a) |
 | Cost per review | about 0.01 USDC of gas for a pay plus a review (about 500k gas at 20 gwei); the agent keeps 100% of the price |
 | Check time | about 45 s for a new wallet, about 4.5 min for a very busy one, on Arc's free public endpoints |
 | Tests | 61 contract tests (60 against Arc mainnet state), 26 checker tests, end-to-end run with real mainnet wallets |
@@ -30,7 +30,7 @@ Arc's ERC-8004 ReputationRegistry.
 
 Five minutes, no keys, nothing to install for steps 1 to 3.
 
-1. Open the PaidReviews contract on the Arc explorer (link above) and its transactions:
+1. Open the [PaidReviews contract](https://explorer.arc.io/address/0xE6F94dAFBE0B37194911a3Ab738727e37FD3F05d) on the Arc explorer and its transactions:
    a payment that reached the agent in full in the same transaction, and two reviews that
    the gate rejected on-chain (`TrustScoreTooLow`): one from a sock wallet funded by the
    agent's owner, one from a brand-new wallet.
@@ -265,22 +265,27 @@ all of the time above.
 
 | Contract | Address |
 |---|---|
-| PaidReviews | TBD |
-| Checker (signing key, public address) | TBD |
+| PaidReviews | [`0xE6F94dAFBE0B37194911a3Ab738727e37FD3F05d`](https://explorer.arc.io/address/0xE6F94dAFBE0B37194911a3Ab738727e37FD3F05d) (deployed in block 25,957,249) |
+| Checker (signing key, public address) | `0x777908f9BC5b4e31be3b2b85e25c0268cf69143d` |
+| Demo agents (ERC-8004) | 2439 (used in the demo) and 2440, owned by the deployer `0xF30E876a47B989e8CE7baa3cE10313aad4B26c49` |
 | ERC-8004 IdentityRegistry | `0x8004A169FB4a3325136EB29fA0ceB6D2e539a432` |
 | ERC-8004 ReputationRegistry | `0x8004BAa17C55a88189AE136b182e5fdA19dE9b63` |
 
-## Demo transactions (Arc mainnet)
+## Demo transactions (Arc mainnet, 14 Oct 2026)
 
-| Step | Transaction | Result |
-|---|---|---|
-| Register the demo agent (deployer) | TBD | ERC-8004 agent id TBD |
-| Deploy PaidReviews (checker `0x777908f9BC5b4e31be3b2b85e25c0268cf69143d`, threshold 7) | TBD | |
-| New payer pays the agent 0.01 USDC (Instant) | TBD | agent received 100% in the same transaction |
-| New payer tries to review with its permit (score 0: wallet younger than 7 days) | TBD | rejected on-chain: `TrustScoreTooLow(0, 7)` |
-| Sock wallet, funded by the agent's owner, pays | TBD | agent received 100% |
-| Sock tries to review with its permit (score 0: funded by the owner) | TBD | rejected on-chain: `TrustScoreTooLow(0, 7)` |
-| A wallet that never paid tries to review someone else's receipt | TBD | rejected on-chain: `NotReceiptPayer` |
+| # | Step | Transaction | Result |
+|---|---|---|---|
+| 1 | Register demo agents 2439 and 2440 (deployer) | [`0x5e91bc18…`](https://explorer.arc.io/tx/0x5e91bc185dc03541997dbc9724addb567f89ab3c0aed35d6904bcd57d4c13f46) [`0xb414292d…`](https://explorer.arc.io/tx/0xb414292de18a3e49837251f80856a345cf473a1bf9da2c470085eedcf509a8d7) | agents owned by `0xF30E…6c49` |
+| 2 | Deploy PaidReviews (checker `0x7779…143d`, threshold 7, min payment 0.01 USDC) | [`0x60ff87cf…`](https://explorer.arc.io/tx/0x60ff87cfd35b8c5f6ba5d2409dd647db954b963a44855eff109dfc6dda6a078a) | gate [`0xE6F9…F05d`](https://explorer.arc.io/address/0xE6F94dAFBE0B37194911a3Ab738727e37FD3F05d) |
+| 3 | The agent's owner funds a sock wallet with 0.05 USDC | [`0xd900f180…`](https://explorer.arc.io/tx/0xd900f1807e62739a316d1f7836af6f3390a93c9ddd2e59f1f559a750019d4fb2) | sock `0x1c2d…E3BB` |
+| 4 | The owner sends the payer wallet 0.02 USDC for gas | [`0xd7c1b0c5…`](https://explorer.arc.io/tx/0xd7c1b0c5313001b467eb8d4f02bf79cc37f31fa12d62d4842fc98e446393c7c7) | payer `0x5dD7…4317` |
+| 5 | Sock pays agent 2439 0.01 USDC through the gate | [`0xde89c66b…`](https://explorer.arc.io/tx/0xde89c66bd8b52302afd0babf3893c0e49055de46b2bf6562183e0bdeb4bb3a07) | receipt #1; `Paid(..., instant = true)`; the agent received the full 0.01 USDC in the same transaction, the gate holds 0 |
+| 6 | Checker scores receipt #1 (off-chain, 29 s on public endpoints) | [report](checker/reports/receipt-1.json), [permit](permits/receipt-1.json) | **0/10**, hard fails: funded by the agent's owner, money from the agent's side, wallet younger than 7 days. Report hash `0x53bf23de…f8e8`; two independent runs produced the same hash |
+| 7 | Sock submits its review with that permit | [`0x4a217015…`](https://explorer.arc.io/tx/0x4a217015e0ac907714bd97bb228361424d58499bc66ff35e39267f131858de0c) | **rejected on-chain:** `TrustScoreTooLow(0, 7)` |
+| 8 | Payer, which never paid, tries to review the sock's receipt | [`0x22db0b5b…`](https://explorer.arc.io/tx/0x22db0b5bf462a21e28e0776fea46e104a3cd603af469d259c5cc954fb5eca8ca) | **rejected on-chain:** `NotReceiptPayer(1)` |
+
+Afterwards `liveScore(2439)` is `(0, 0)`: no unchecked rating reached the registry through
+the gate. Forge's broadcast records for steps 1 and 2 are in `broadcast/*/5042/`.
 
 ## What is real and what is not
 
@@ -290,9 +295,9 @@ all of the time above.
   permits for the demo receipts are signed with the checker key whose address is pinned in
   the contract.
 - **Not on mainnet: an accepted review.** The checker requires a payer wallet to be at least
-  7 days old. This project's wallets were first funded on 12 Oct 2026, two days before the
-  deadline, so no wallet of ours could pass honestly in time, and lowering the rule for the
-  demo would defeat it. The accepted case is shown instead by the end-to-end run on a local
+  7 days old. This project's wallets were first funded on 14 Oct 2026, the deadline day, so
+  no wallet of ours could pass honestly in time, and lowering the rule for the demo would
+  defeat it. The accepted case is shown instead by the end-to-end run on a local
   fork of Arc mainnet ([output](docs/e2e-fork-run-2026-10-07.txt),
   [script](checker/test/e2e-anvil.mjs)): the same contract deployed on the fork, real mainnet
   wallets as payers, and the checker reading their real Arc history.

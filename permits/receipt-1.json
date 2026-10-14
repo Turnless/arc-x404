@@ -1,0 +1,16 @@
+{
+  "receiptId": 1,
+  "payer": "0x1c2d972C667C2DA5A9dEd15f4A9F93d4BA47E3BB",
+  "agentId": 2439,
+  "chainId": 5042,
+  "gate": "0xE6F94dAFBE0B37194911a3Ab738727e37FD3F05d",
+  "permit": {
+    "trustScore": 0,
+    "reportHash": "0x53bf23de421b0cb7c9b7a104cc371a7332331ecdbb4ec096c534f64e228ef8e8",
+    "deadline": "1792003601"
+  },
+  "signature": "0xb7146f630c8cde741c2231fcb8cd0f23560282a91b292841b8879ab5964de0f70f5bb8005978f5afc0101da2044a13b0e17eeef46352cddbda083b10ce06f4751b",
+  "digest": "0x47f695546464c838550babc782c0c8595916572092a82e32ef39ffbd943301f0",
+  "signer": "0x777908f9BC5b4e31be3b2b85e25c0268cf69143d",
+  "eligible": false
+}

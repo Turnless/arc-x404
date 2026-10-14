@@ -30,7 +30,7 @@ IdentityRegistry, USDC payments that reached the agent in full, and reviews reje
 on-chain (a sock funded by the agent's owner, a wallet younger than 7 days, and a wallet
 that never paid).
 
-**Live deployment link:** TBD (Arc explorer link to the PaidReviews contract)
+**Live deployment link:** https://explorer.arc.io/address/0xE6F94dAFBE0B37194911a3Ab738727e37FD3F05d
 
 **Repository:** https://github.com/Turnless/arc-x404
 
@@ -43,21 +43,33 @@ to find funding links and money loops.
 hard rule is that a payer wallet must be at least 7 days old, and this project's wallets were
 first funded two days before the deadline. The accepted case is shown by an end-to-end run on
 a local fork of Arc mainnet with real mainnet wallets (`docs/e2e-fork-run-2026-10-07.txt`).
-The project wallets can post a real accepted review on mainnet from about 19 Oct.
+The project wallets were first funded on 14 Oct; an honestly funded payer can post a real
+accepted review on mainnet once it is 7 days old and has paid established parties.
 
 ## Addresses
 
 | What | Address |
 |---|---|
-| PaidReviews (gate) | TBD |
-| Deploy block | TBD |
-| Demo agent id | TBD |
+| PaidReviews (gate) | `0xE6F94dAFBE0B37194911a3Ab738727e37FD3F05d` |
+| Deploy block | 25,957,249 |
+| Demo agent id | 2439 (and 2440) |
 | Checker signing key (public) | `0x777908f9BC5b4e31be3b2b85e25c0268cf69143d` |
 | Deployer / agent owner | `0xF30E876a47B989e8CE7baa3cE10313aad4B26c49` |
 | Payer | `0x5dD74aceF3cB49b94279792af30B63d585FF4317` |
 | Sock (funded by the deployer) | `0x1c2d972C667C2DA5A9dEd15f4A9F93d4BA47E3BB` |
 | ERC-8004 IdentityRegistry | `0x8004A169FB4a3325136EB29fA0ceB6D2e539a432` |
 | ERC-8004 ReputationRegistry | `0x8004BAa17C55a88189AE136b182e5fdA19dE9b63` |
+
+## Mainnet transactions (14 Oct 2026)
+
+| Step | Hash |
+|---|---|
+| Register agents 2439, 2440 | 0x5e91bc185dc03541997dbc9724addb567f89ab3c0aed35d6904bcd57d4c13f46, 0xb414292de18a3e49837251f80856a345cf473a1bf9da2c470085eedcf509a8d7 |
+| Deploy PaidReviews | 0x60ff87cfd35b8c5f6ba5d2409dd647db954b963a44855eff109dfc6dda6a078a |
+| Owner funds sock / payer | 0xd900f1807e62739a316d1f7836af6f3390a93c9ddd2e59f1f559a750019d4fb2, 0xd7c1b0c5313001b467eb8d4f02bf79cc37f31fa12d62d4842fc98e446393c7c7 |
+| Sock pays agent 2439 (Instant, receipt #1) | 0xde89c66bd8b52302afd0babf3893c0e49055de46b2bf6562183e0bdeb4bb3a07 |
+| Sock review rejected: TrustScoreTooLow(0, 7) | 0x4a217015e0ac907714bd97bb228361424d58499bc66ff35e39267f131858de0c |
+| Never-paid review rejected: NotReceiptPayer(1) | 0x22db0b5bf462a21e28e0776fea46e104a3cd603af469d259c5cc954fb5eca8ca |
 
 ## Demo video script (about 2.5 minutes, filmed on the real mainnet transactions)
 
@@ -96,9 +108,9 @@ The project wallets can post a real accepted review on mainnet from about 19 Oct
 - [x] Repo prepared: license (MIT), secrets scanned (no keys, `.env` ignored), README judge-first
 - [ ] Repo pushed and public: https://github.com/Turnless/arc-x404 opens in a private window
 - [ ] CI green on GitHub (checker tests + contract build + offline fuzz test)
-- [ ] Wallets funded: deployer about 0.5 USDC, payer about 0.3 USDC (Arc mainnet)
-- [ ] Mainnet deploy done; contract verified on the Arc explorer (or flattened source linked)
-- [ ] Demo transactions done; every TBD in README and here replaced with real hashes
+- [x] Wallets funded (deployer 0.6 USDC; sock and payer funded by the deployer)
+- [x] Mainnet deploy done (gate `0xE6F9…F05d`); explorer source verification optional
+- [x] Demo transactions done; README and this file filled with real hashes
 - [ ] Judge fast path followed literally from a fresh browser
 - [ ] Video recorded and linked (unlisted is fine)
 - [ ] X posts published by you, launch post linked in the form

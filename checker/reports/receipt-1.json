@@ -1,0 +1,315 @@
+{
+  "reportHash": "0x53bf23de421b0cb7c9b7a104cc371a7332331ecdbb4ec096c534f64e228ef8e8",
+  "report": {
+    "kind": "paid-reviews-trust-report",
+    "rulesVersion": "4",
+    "rules": {
+      "rulesVersion": "4",
+      "maxScore": 10,
+      "blocksPerDay": 170000,
+      "minAgeDays": 7,
+      "fastPathWeeks": 3,
+      "fastPathInboundDays": 4,
+      "launchBlock": 21000000,
+      "historyDays": 10,
+      "ageTiers": [
+        {
+          "days": 30,
+          "points": 2
+        },
+        {
+          "days": 7,
+          "points": 1
+        }
+      ],
+      "historyTiers": [
+        {
+          "count": 3,
+          "points": 2
+        },
+        {
+          "count": 1,
+          "points": 1
+        }
+      ],
+      "hubNonce": 500,
+      "hubMinAgeDays": 7,
+      "funderHops": 2,
+      "clusterMaxPayers": 10,
+      "inboundDays": 10,
+      "inboundSendersTraced": 2,
+      "recipientMinValue": "10000000000000000",
+      "recipientMinAgeDays": 7,
+      "recipientCandidates": 6,
+      "payerAgentMinAgeDays": 7,
+      "httpTimeoutMs": 6000,
+      "httpMaxBytes": 65536,
+      "sharedHosts": [
+        "raw.githubusercontent.com",
+        "gist.githubusercontent.com",
+        "ipfs.io",
+        "dweb.link",
+        "w3s.link",
+        "nftstorage.link",
+        "cloudflare-ipfs.com",
+        "gateway.pinata.cloud",
+        "arweave.net",
+        "storage.googleapis.com",
+        "s3.amazonaws.com"
+      ]
+    },
+    "chainId": 5042,
+    "gate": "0xE6F94dAFBE0B37194911a3Ab738727e37FD3F05d",
+    "receiptId": 1,
+    "payer": "0x1c2d972C667C2DA5A9dEd15f4A9F93d4BA47E3BB",
+    "agentId": 2439,
+    "amount": "10000000000000000",
+    "payBlock": 25957614,
+    "payTx": "0xde89c66bd8b52302afd0babf3893c0e49055de46b2bf6562183e0bdeb4bb3a07",
+    "establishedWalletFastPath": false,
+    "trustScore": 0,
+    "maxScore": 10,
+    "minTrustScore": 7,
+    "eligible": false,
+    "hardFails": [
+      "wallet-age",
+      "independent-funding",
+      "no-money-loop"
+    ],
+    "rawPoints": 1,
+    "signals": [
+      {
+        "hard": true,
+        "pass": true,
+        "id": "not-agent-side",
+        "label": "Payer is not the agent's owner, wallet or payee",
+        "max": 0,
+        "points": 0,
+        "evidence": {
+          "linked": [
+            "0xF30E876a47B989e8CE7baa3cE10313aad4B26c49"
+          ]
+        }
+      },
+      {
+        "hard": false,
+        "pass": true,
+        "id": "payer-agent-identity",
+        "label": "Payer is an ERC-8004 agent it controls, with a valid registration at least 7 days old",
+        "max": 1,
+        "points": 0,
+        "evidence": "no payer agent given"
+      },
+      {
+        "hard": false,
+        "pass": true,
+        "id": "model-claim",
+        "label": "Claimed model or code (recorded, cannot be verified, never scored)",
+        "max": 0,
+        "points": 0,
+        "evidence": {
+          "claim": null
+        }
+      },
+      {
+        "hard": false,
+        "pass": true,
+        "id": "domain-verified",
+        "label": "A non-shared endpoint domain proves control of the payer's agent (.well-known)",
+        "max": 1,
+        "points": 0,
+        "evidence": "no payer agent given"
+      },
+      {
+        "hard": true,
+        "pass": false,
+        "id": "wallet-age",
+        "label": "Wallet age: at least 7 days to review (30+ days: 2, 7+ days: 1)",
+        "max": 2,
+        "points": 0,
+        "evidence": {
+          "firstBlock": 25957532,
+          "ageDays": 0
+        }
+      },
+      {
+        "hard": false,
+        "pass": true,
+        "id": "independent-history",
+        "label": "Paid established, independent parties in the last 10 days (3+: 2, 1+: 1)",
+        "max": 2,
+        "points": 0,
+        "evidence": {
+          "count": 0,
+          "recipients": [],
+          "checks": [],
+          "window": {
+            "fromBlock": 25957532,
+            "toBlock": 25957614,
+            "days": 10
+          }
+        }
+      },
+      {
+        "hard": true,
+        "pass": false,
+        "id": "independent-funding",
+        "label": "Not funded by the agent's side, up to 2 hops back (2 if independent, 0 if unknown)",
+        "max": 2,
+        "points": 0,
+        "evidence": {
+          "funders": [
+            {
+              "address": "0xF30E876a47B989e8CE7baa3cE10313aad4B26c49",
+              "hub": null,
+              "initiator": "0xF30E876a47B989e8CE7baa3cE10313aad4B26c49",
+              "identity": "0xF30E876a47B989e8CE7baa3cE10313aad4B26c49",
+              "block": 25957532
+            },
+            {
+              "address": "0x3BbFd3FB0ef7457BDde05a0c4398165DD704179B",
+              "hub": null,
+              "initiator": "0x3BbFd3FB0ef7457BDde05a0c4398165DD704179B",
+              "identity": "0x3BbFd3FB0ef7457BDde05a0c4398165DD704179B",
+              "block": 25956016
+            }
+          ],
+          "linkedVia": "0xF30E876a47B989e8CE7baa3cE10313aad4B26c49",
+          "sharedFunderWith": null
+        }
+      },
+      {
+        "hard": true,
+        "pass": false,
+        "id": "no-money-loop",
+        "label": "No money from the agent's side into the payer (any route, last 10 days; gate events all time)",
+        "max": 0,
+        "points": 0,
+        "evidence": {
+          "found": [
+            {
+              "from": "0xF30E876a47B989e8CE7baa3cE10313aad4B26c49",
+              "total": "50000000000000000",
+              "tx": "0xd900f1807e62739a316d1f7836af6f3390a93c9ddd2e59f1f559a750019d4fb2",
+              "block": 25957532,
+              "via": "sent directly by the agent's side"
+            }
+          ],
+          "window": {
+            "fromBlock": 25957532,
+            "toBlock": 25957614,
+            "transfers": 1,
+            "senders": 1
+          }
+        }
+      },
+      {
+        "hard": false,
+        "pass": true,
+        "id": "not-single-target",
+        "label": "Payer has paid someone other than this agent",
+        "max": 1,
+        "points": 0,
+        "evidence": {
+          "independentRecipients": 0
+        }
+      },
+      {
+        "hard": false,
+        "pass": true,
+        "id": "no-cluster",
+        "label": "No other payer of this agent shares the payer's funder",
+        "max": 1,
+        "points": 1,
+        "evidence": {
+          "otherPayersChecked": 0,
+          "clusterWith": []
+        }
+      }
+    ]
+  },
+  "facts": {
+    "chainId": 5042,
+    "gate": "0xE6F94dAFBE0B37194911a3Ab738727e37FD3F05d",
+    "receiptId": 1,
+    "payer": "0x1c2d972C667C2DA5A9dEd15f4A9F93d4BA47E3BB",
+    "agentId": 2439,
+    "amount": "10000000000000000",
+    "reviewed": false,
+    "payBlock": 25957614,
+    "payTimestamp": 1791998892,
+    "payTx": "0xde89c66bd8b52302afd0babf3893c0e49055de46b2bf6562183e0bdeb4bb3a07",
+    "linked": [
+      "0xF30E876a47B989e8CE7baa3cE10313aad4B26c49"
+    ],
+    "established": false,
+    "weeklyNonces": [
+      "1",
+      "0",
+      "0",
+      "0"
+    ],
+    "firstBlock": 25957532,
+    "firstTimestamp": 1791998851,
+    "payerFunders": [
+      {
+        "address": "0xF30E876a47B989e8CE7baa3cE10313aad4B26c49",
+        "block": 25957532,
+        "tx": "0xd900f1807e62739a316d1f7836af6f3390a93c9ddd2e59f1f559a750019d4fb2",
+        "initiator": "0xF30E876a47B989e8CE7baa3cE10313aad4B26c49",
+        "hub": null,
+        "initiatorHub": null,
+        "identity": "0xF30E876a47B989e8CE7baa3cE10313aad4B26c49"
+      },
+      {
+        "address": "0x3BbFd3FB0ef7457BDde05a0c4398165DD704179B",
+        "block": 25956016,
+        "tx": "0x099aa8269c29a7c0b12fe44d9421aed9bd043db53bb44bf002ae16e3fa14b0bc",
+        "initiator": "0x3BbFd3FB0ef7457BDde05a0c4398165DD704179B",
+        "hub": null,
+        "initiatorHub": null,
+        "identity": "0x3BbFd3FB0ef7457BDde05a0c4398165DD704179B"
+      }
+    ],
+    "linkedFunders": [
+      {
+        "account": "0xF30E876a47B989e8CE7baa3cE10313aad4B26c49",
+        "funder": "0x3BbFd3FB0ef7457BDde05a0c4398165DD704179B",
+        "hub": null
+      }
+    ],
+    "inboundWindow": {
+      "fromBlock": 25957532,
+      "toBlock": 25957614,
+      "transfers": 1,
+      "senders": 1
+    },
+    "moneyFromAgentSide": [
+      {
+        "from": "0xF30E876a47B989e8CE7baa3cE10313aad4B26c49",
+        "total": "50000000000000000",
+        "tx": "0xd900f1807e62739a316d1f7836af6f3390a93c9ddd2e59f1f559a750019d4fb2",
+        "block": 25957532,
+        "via": "sent directly by the agent's side"
+      }
+    ],
+    "historyWindow": {
+      "fromBlock": 25957532,
+      "toBlock": 25957614,
+      "days": 10
+    },
+    "recipientChecks": [],
+    "independentRecipients": [],
+    "otherPayersChecked": 0,
+    "clusterWith": [],
+    "payerAgent": null,
+    "timings": {
+      "receipt and gate events": 3523,
+      "age and funding": 1038,
+      "money from the agent's side": 1081,
+      "history and recipients": 511,
+      "cluster": 0,
+      "payer agent": 0
+    }
+  }
+}
