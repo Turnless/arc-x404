@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0B1B3A"/>
+      <stop offset="1" stop-color="#143A6E"/>
+    </linearGradient>
+    <linearGradient id="arch" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#4C9BFF"/>
+      <stop offset="1" stop-color="#2775CA"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="96" fill="url(#bg)"/>
+  <!-- the gate: an arch -->
+  <path d="M136 330 V238 A120 120 0 0 1 376 238 V330" fill="none" stroke="url(#arch)" stroke-width="34" stroke-linecap="round"/>
+  <!-- the trust check inside the gate -->
+  <path d="M206 262 L244 300 L312 222" fill="none" stroke="#3DDC97" stroke-width="30" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- name -->
+  <text x="256" y="414" text-anchor="middle" font-family="Segoe UI, Arial, Helvetica, sans-serif" font-size="70" font-weight="700" fill="#FFFFFF" letter-spacing="1">ARC-x404</text>
+  <text x="256" y="456" text-anchor="middle" font-family="Segoe UI, Arial, Helvetica, sans-serif" font-size="22" font-weight="600" fill="#9DB7DA" letter-spacing="5">PAID · CHECKED · REVIEWS</text>
+</svg>

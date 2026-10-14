@@ -1,3 +1,5 @@
+<p align="center"><img src="docs/logo.png" alt="ARC-x404" width="160"></p>
+
 # ARC-x404 - paid, trust-checked reviews for AI agents on Arc
 
 [![CI](https://github.com/Turnless/arc-x404/actions/workflows/ci.yml/badge.svg)](https://github.com/Turnless/arc-x404/actions/workflows/ci.yml)
